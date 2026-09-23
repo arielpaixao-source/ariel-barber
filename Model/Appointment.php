@@ -5,12 +5,15 @@ use PDO;
 
 class Appointment {
    
-    public static function isSlotOccupied($date, $time) {
-        $db = Connection::getConnection();
-        $stmt = $db->prepare("SELECT id FROM appointments WHERE date = :date AND time = :time AND status = 'Confirmado'");
-        $stmt->execute([':date' => $date, ':time' => $time]);
-        return $stmt->fetch() !== false;
-    }
+  public static function isSlotOccupied($date, $time) {
+    $db = Connection::getInstance();
+    $stmt = $db->prepare("SELECT COUNT(*) FROM appointments WHERE date = :date AND TIME_FORMAT(time, '%H:%i') = TIME_FORMAT(:time, '%H:%i')");
+    $stmt->execute([
+        ':date' => $date,
+        ':time' => $time
+    ]);
+    return $stmt->fetchColumn() > 0;
+}
 
     
     public static function create($userId, $serviceId, $date, $time) {
