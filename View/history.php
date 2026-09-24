@@ -1,7 +1,7 @@
 <?php
 use Model\Appointment;
 
-$user_id = 1; 
+$user_id = 1;
 $appointments = Appointment::getByUser($user_id);
 ?>
 <!DOCTYPE html>
@@ -13,14 +13,14 @@ $appointments = Appointment::getByUser($user_id);
 </head>
 <body class="bg-light">
 
-<div class="container mt-5" style="max-width: 700px;">
+<div class="container mt-5" style="max-width: 850px;">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2>Meus Agendamentos</h2>
         <a href="index.php?page=home" class="btn btn-success">+ Novo Agendamento</a>
     </div>
 
     <div class="card p-3 shadow-sm bg-white">
-        <table class="table table-striped">
+        <table class="table table-striped align-middle">
             <thead>
                 <tr>
                     <th>Serviço</th>
@@ -28,6 +28,7 @@ $appointments = Appointment::getByUser($user_id);
                     <th>Horário</th>
                     <th>Valor</th>
                     <th>Status</th>
+                    <th class="text-center">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,11 +42,18 @@ $appointments = Appointment::getByUser($user_id);
                             <td>
                                 <span class="badge bg-primary"><?php echo $a['status']; ?></span>
                             </td>
+                            <td class="text-center">
+                                <a href="index.php?page=delete_appointment&id=<?= $a['id'] ?>" 
+                                   onclick="return confirm('Tem certeza que deseja cancelar este agendamento?')" 
+                                   class="btn btn-danger btn-sm">
+                                   Cancelar
+                                </a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <tr>
-                        <td colspan="5" class="text-center text-muted">Nenhum agendamento encontrado.</td>
+                        <td colspan="6" class="text-center text-muted">Nenhum agendamento encontrado.</td>
                     </tr>
                 <?php endif; ?>
             </tbody>
